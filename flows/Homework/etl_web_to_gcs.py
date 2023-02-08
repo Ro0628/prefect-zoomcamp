@@ -29,10 +29,9 @@ def clean(df: pd.DataFrame, color="yellow") -> pd.DataFrame:
 
     print(df.head(2))
     print(f"columns: {df.dtypes}")
-    print(f"rows: {len(df)}")
+    print(f"Rows processed: {df.shape[0]}")
+    
     return df
-
-
 @task()
 def write_local(df: pd.DataFrame, color: str, dataset_file: str) -> Path:
     """Write DataFrame out locally as parquet file"""
@@ -50,7 +49,6 @@ def write_gcs(path: Path) -> None:
     gcs_block = GcsBucket.load("zoom-gcp")
     gcs_block.upload_from_path(from_path=path, to_path=path, timeout=360)
     return
-
 
 @flow()
 def etl_web_to_gcs() -> None:
